@@ -18,7 +18,7 @@ import static database.DatasourceProducer.JNDI_NAME;
     className = "org.postgresql.ds.PGSimpleDataSource",
     url = "jdbc:postgresql://localhost:5433/postgres",
     user = "Trym360",
-    password = "Password1")
+    password = "Dragon50")
 public class DatasourceProducer {
     public static final String JNDI_NAME =  "java:app/jdbc/default";
 

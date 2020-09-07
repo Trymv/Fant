@@ -84,15 +84,17 @@ public class Item implements Serializable {
 
 	/**
 	 * OWNER SIDE *
+         * Relation to see who owns the item.
 	 */
 	@NotEmpty
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "owner_id", referencedColumnName = "user_id",
+	@JoinColumn(name = "user_id", referencedColumnName = "owner_id",
 		nullable = false)
 	private User sellerUser;
 
 	/**
 	 * OWNER SIDE *
+         * Relation to see who purchased an item.
 	 */
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "item_id", referencedColumnName = "item_id")

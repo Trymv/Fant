@@ -92,6 +92,7 @@ public class User implements Serializable {
 
 	/**
 	 * REFERENCING SIDE *
+         * To see the purchases a user has made.
 	 */
 	@JsonbTransient
 	@Getter
@@ -100,6 +101,7 @@ public class User implements Serializable {
 
 	/**
 	 * REFERENCING SIDE *
+         * To see what items a user is or has sold.
 	 */
 	@JsonbTransient
 	@Getter

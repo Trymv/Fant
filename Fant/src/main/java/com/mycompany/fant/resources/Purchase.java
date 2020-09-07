@@ -52,10 +52,10 @@ public class Purchase implements Serializable {
 	}
 	
 	/** OWNING SIDE **/
+        @NotEmpty
 	@ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.DETACH)
 	@JoinColumn(name = "user_id", referencedColumnName = "buyer_id",
 		nullable = false)
-	@NotEmpty
 	private User buyerUser;
 	
 	
