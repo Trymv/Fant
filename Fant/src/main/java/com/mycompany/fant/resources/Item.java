@@ -44,15 +44,10 @@ public class Item implements Serializable {
 	public final static String FIND_ALL_ITEMS = "findAllItems";
 
 	@Id
-	@Column(name = "owner_id", nullable = false)
+	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long owner_id;
         
-        //@Id
-        @Column(name = "item_id", nullable = false)
-        //@GeneratedValue(strategy = GenerationType.AUTO)
-        private long item_id;
-
 	@NotEmpty
 	@Column(name = "title")
 	private String title;
@@ -89,7 +84,7 @@ public class Item implements Serializable {
 	 */
 	@NotEmpty
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "user_id", referencedColumnName = "ownedItems",
+	@JoinColumn(name = "sller_user_id", referencedColumnName = "id",
 		nullable = false)
 	private User sellerUser;
 
@@ -98,6 +93,6 @@ public class Item implements Serializable {
          * Relation to see who purchased an item.
 	 */
 	@OneToOne(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "item_id", referencedColumnName = "item_id")
+	@JoinColumn(name = "item_id", referencedColumnName = "id")
 	private Purchase purchase;
 }

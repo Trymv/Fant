@@ -16,11 +16,15 @@ import static database.DatasourceProducer.JNDI_NAME;
 @DataSourceDefinition(
     name = JNDI_NAME,
     className = "org.postgresql.ds.PGSimpleDataSource",
-    url = "jdbc:postgresql://localhost:5433/postgres",
-    user = "Trym360",
-    password = "Dragon50")
+    serverName      = "${MPCONFIG=dataSource.serverName}",
+    portNumber      = 5433,
+    databaseName    = "${MPCONFIG=dataSource.databaseName}",
+    user            = "${MPCONFIG=dataSource.user}",
+    password        = "${MPCONFIG=dataSource.password}",
+    minPoolSize     = 10,
+    maxPoolSize     = 50)
 public class DatasourceProducer {
-    public static final String JNDI_NAME =  "java:app/jdbc/default";
+    public static final String JNDI_NAME =  "java:app/jdbc/postgres";
 
     @Resource(lookup=JNDI_NAME)
     DataSource ds;

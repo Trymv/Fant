@@ -35,12 +35,9 @@ import lombok.NoArgsConstructor;
 @Entity(name = "purchases")
 public class Purchase implements Serializable {
 	@Id
-	@Column(name = "buyer_id")
+	@Column(name = "id")
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private long buyerId;
-        
-        @Column(name = "item_id")
-        private long itemId;
 	
 	@NotEmpty
 	@Column(name = "purchase_date")
@@ -54,7 +51,7 @@ public class Purchase implements Serializable {
 	/** OWNING SIDE **/
         @NotEmpty
 	@ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.DETACH)
-	@JoinColumn(name = "user_id", referencedColumnName = "donePurchases",
+	@JoinColumn(name = "purchase_user_id", referencedColumnName = "id",
 		nullable = false)
 	private User buyerUser;
 	

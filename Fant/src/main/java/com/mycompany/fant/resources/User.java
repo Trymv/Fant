@@ -51,7 +51,7 @@ public class User implements Serializable {
     public final static String FIND_USER_BY_EMAIL = "User.findUserByEmail";
     
     @Id
-    @Column(name = "user_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userId;
     
@@ -83,8 +83,8 @@ public class User implements Serializable {
     @ManyToMany
 	@JoinTable(name = "AUSERGROUP",
 		joinColumns = @JoinColumn(
-			name = "user_id",
-			referencedColumnName = "user_id"),
+			name = "id",
+			referencedColumnName = "id"),
 		inverseJoinColumns = @JoinColumn(
 			name = "name",
 			referencedColumnName = "name"))

@@ -27,7 +27,7 @@ public class Group implements Serializable {
     public static final String[] GROUPS = {USER, ADMIN};
 
     @Id
-    long name;
+    String name;
 
     String project;
 
@@ -35,10 +35,10 @@ public class Group implements Serializable {
     @ManyToMany
     @JoinTable(name="AUSERGROUP",
             joinColumns = @JoinColumn(name="name", referencedColumnName = "name"),
-            inverseJoinColumns = @JoinColumn(name="user_id",referencedColumnName = "user_id"))
+            inverseJoinColumns = @JoinColumn(name="id",referencedColumnName = "id"))
     List<User> users;
 
-    public Group(long name) {
+    public Group(String name) {
         this.name = name;
     }
 }
