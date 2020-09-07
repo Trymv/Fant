@@ -45,11 +45,12 @@ public class Item implements Serializable {
 
 	@Id
 	@Column(name = "owner_id", nullable = false)
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long owner_id;
         
+        //@Id
         @Column(name = "item_id", nullable = false)
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        //@GeneratedValue(strategy = GenerationType.AUTO)
         private long item_id;
 
 	@NotEmpty
@@ -88,7 +89,7 @@ public class Item implements Serializable {
 	 */
 	@NotEmpty
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "user_id", referencedColumnName = "owner_id",
+	@JoinColumn(name = "user_id", referencedColumnName = "ownedItems",
 		nullable = false)
 	private User sellerUser;
 

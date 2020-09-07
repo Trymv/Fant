@@ -27,18 +27,18 @@ public class Group implements Serializable {
     public static final String[] GROUPS = {USER, ADMIN};
 
     @Id
-    String name;
+    long name;
 
     String project;
 
     @JsonbTransient
     @ManyToMany
     @JoinTable(name="AUSERGROUP",
-            joinColumns = @JoinColumn(name="first_name", referencedColumnName = "first_name"),
+            joinColumns = @JoinColumn(name="name", referencedColumnName = "name"),
             inverseJoinColumns = @JoinColumn(name="user_id",referencedColumnName = "user_id"))
     List<User> users;
 
-    public Group(String name) {
+    public Group(long name) {
         this.name = name;
     }
 }

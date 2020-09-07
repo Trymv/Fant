@@ -81,10 +81,10 @@ public class User implements Serializable {
     } 
     
     @ManyToMany
-	@JoinTable(name = "users",
+	@JoinTable(name = "AUSERGROUP",
 		joinColumns = @JoinColumn(
 			name = "user_id",
-			referencedColumnName = "id"),
+			referencedColumnName = "user_id"),
 		inverseJoinColumns = @JoinColumn(
 			name = "name",
 			referencedColumnName = "name"))
@@ -96,7 +96,7 @@ public class User implements Serializable {
 	 */
 	@JsonbTransient
 	@Getter
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "purchases")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "buyerUser")
 	private List<Purchase> donePurchases;
 
 	/**
@@ -105,7 +105,7 @@ public class User implements Serializable {
 	 */
 	@JsonbTransient
 	@Getter
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "items")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sellerUser")
 	private List<Item> ownedItems;
 
 	public List<Group> getGroupMembership() {
