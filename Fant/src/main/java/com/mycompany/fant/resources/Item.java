@@ -93,6 +93,6 @@ public class Item implements Serializable {
          * Relation to see who purchased an item.
 	 */
 	@OneToOne(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "item_id", referencedColumnName = "id")
+	@JoinColumn(name = "purchase_id", referencedColumnName = "id")
 	private Purchase purchase;
 }

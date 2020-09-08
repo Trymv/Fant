@@ -1,6 +1,5 @@
 package com.mycompany.fant;
 
-import database.DatasourceProducer;
 import javax.annotation.security.DeclareRoles;
 import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 import javax.security.enterprise.identitystore.PasswordHash;

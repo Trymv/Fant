@@ -22,7 +22,6 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("sales")
 public class SaleResource {
-    SaleService saleService = new SaleService();
     
     /**
      *

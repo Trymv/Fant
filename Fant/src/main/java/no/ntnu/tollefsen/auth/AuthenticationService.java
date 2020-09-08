@@ -39,7 +39,7 @@ import io.jsonwebtoken.security.InvalidKeyException;
 import javax.annotation.Resource;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
-import database.DatasourceProducer;
+import com.mycompany.fant.DatasourceProducer;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -205,7 +205,28 @@ public class AuthenticationService {
             return em.merge(user);
         }        
     }
-
+    
+    public User createUserV2(long uid, String pwd, String firstName, String lastName, String email, String phoneNumber) {
+        System.out.println("\nTrying to create user using ID: " + uid + "\n");
+        User user = em.find(User.class, uid);
+        if (user != null) {
+            System.out.println("Already user with ID: " + uid);
+            log.log(Level.INFO, "user already exists {0}", uid);
+            throw new IllegalArgumentException("User " + uid + " already exists");
+        } else {
+            System.out.println("Creating user with ID: " + uid);
+            user = new User();
+            user.setUserId(uid);
+            user.setPassword(hasher.generate(pwd.toCharArray()));
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setEmail(email);
+            user.setPhoneNumber(phoneNumber);
+            Group usergroup = em.find(Group.class, Group.USER);
+            user.getGroups().add(usergroup);
+            return em.merge(user);
+        }        
+    }
     
     /**
      *

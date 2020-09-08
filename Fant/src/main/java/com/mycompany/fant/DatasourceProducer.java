@@ -1,11 +1,11 @@
-package database;
+package com.mycompany.fant;
 
 import javax.annotation.Resource;
 import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.Singleton;
 import javax.enterprise.inject.Produces;
 import javax.sql.DataSource;
-import static database.DatasourceProducer.JNDI_NAME;
+import static com.mycompany.fant.DatasourceProducer.JNDI_NAME;
 
 
 /**
