@@ -108,7 +108,7 @@ public class User implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sellerUser")
 	private List<Item> ownedItems;
 
-	public List<Group> getGroupMembership() {
+	public List<Group> getGroups() {
 		if (groups == null) {
 			groups = new ArrayList<>();
 		}

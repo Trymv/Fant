@@ -208,6 +208,11 @@ public class AuthenticationService {
     
     public User createUserV2(long uid, String pwd, String firstName, String lastName, String email, String phoneNumber) {
         System.out.println("\nTrying to create user using ID: " + uid + "\n");
+        if(em == null) {
+            System.out.println("\nem is null\n");
+        } else {
+            System.out.println("\nem is not null\n");
+        }
         User user = em.find(User.class, uid);
         if (user != null) {
             System.out.println("Already user with ID: " + uid);
@@ -223,6 +228,11 @@ public class AuthenticationService {
             user.setEmail(email);
             user.setPhoneNumber(phoneNumber);
             Group usergroup = em.find(Group.class, Group.USER);
+            if (usergroup == null) {
+                System.out.println("\nusergroup is null\n");
+            } else {
+                System.out.println("\nusergroup is not null\n");
+            }
             user.getGroups().add(usergroup);
             return em.merge(user);
         }        

@@ -5,6 +5,8 @@
  */
 package com.mycompany.fant.resources;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -21,9 +23,12 @@ import no.ntnu.tollefsen.auth.AuthenticationService;
  * @author TrymV
  */
 @Path("fant")
+@Stateless
 public class FantResource {
 
-    AuthenticationService authenticationService = new AuthenticationService();
+    @Inject
+    AuthenticationService authenticationService;
+    
     @PersistenceContext
     EntityManager em;
     
@@ -46,5 +51,5 @@ public class FantResource {
                 userToBeMade.getEmail()+ " " + userToBeMade.getPhoneNumber() + "\n");
         return authenticationService.createUserV2(userToBeMade.getUserId(), psw, 
                 userToBeMade.getFirstName(), userToBeMade.getLastName(), userToBeMade.getEmail(), userToBeMade.getPhoneNumber());
-    }
-}
+        }
+        }    
