@@ -12,6 +12,8 @@ import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -50,6 +52,10 @@ public class User implements Serializable {
     public final static String FIND_ALL_USERS = "User.findAllUsers";
     public final static String FIND_USER_BY_EMAIL = "User.findUserByEmail";
     
+    public enum State {
+        ACTIVE, INACTIVE
+    }
+    
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -79,6 +85,9 @@ public class User implements Serializable {
     protected void onCreate() {
         created = new Date();
     } 
+    
+    @Enumerated(EnumType.STRING)
+    State currentState = State.ACTIVE;
     
     @ManyToMany
 	@JoinTable(name = "AUSERGROUP",

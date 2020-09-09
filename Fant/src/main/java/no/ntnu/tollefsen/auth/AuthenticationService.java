@@ -137,21 +137,18 @@ public class AuthenticationService {
         System.out.println("\n1: email is: " + email + ". pwd is: " + pwd + ".\n");
         User userToLoggInn = userBean.findUserByEmail(email);
         if (userToLoggInn != null) {
-            System.out.println("\n1\n");
             CredentialValidationResult result = identityStoreHandler.validate(
                     new UsernamePasswordCredential(userToLoggInn.getUserId(), pwd));
-            System.out.println("\n2\n");
             if (result.getStatus() == CredentialValidationResult.Status.VALID) {
                 String token = issueToken(result.getCallerPrincipal().getName(),
                         result.getCallerGroups(), request);
-                System.out.println("\n3\n");
+                System.out.println("\nToken is: " + token + "\n");
                 return Response
                         .ok(token)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                         .build();
             }
         }
-        System.out.println("\n4\n");
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 

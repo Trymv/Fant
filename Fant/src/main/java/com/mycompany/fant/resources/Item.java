@@ -46,7 +46,7 @@ public class Item implements Serializable {
 	@Id
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String owner_id;
+	private String id; //Item ID
         
 	@NotEmpty
 	@Column(name = "title")
@@ -64,15 +64,6 @@ public class Item implements Serializable {
 	protected void onCreate() {
 		this.createdDate = new Date();
 	}
-
-	@Column(name = "publish_date")
-	@Temporal(javax.persistence.TemporalType.DATE)
-	private Date publishDate;
-
-	@Future
-	@Column(name = "expire_date")
-	@Temporal(javax.persistence.TemporalType.DATE)
-	private Date expireDate;
 
 	@Positive
 	@Column(name = "price_nok")
@@ -95,4 +86,11 @@ public class Item implements Serializable {
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "purchase_id", referencedColumnName = "id")
 	private Purchase purchase;
+        
+        public Item(User owner, String title, String description, BigDecimal priceNok) {
+            this.sellerUser = owner;
+            this.title = title;
+            this.description = description;
+            this.priceNok = priceNok;
+        }
 }
