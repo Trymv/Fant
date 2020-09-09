@@ -37,7 +37,7 @@ public class Purchase implements Serializable {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue (strategy = GenerationType.AUTO)
-	private long buyerId;
+	private String buyerId;
 	
 	@NotEmpty
 	@Column(name = "purchase_date")

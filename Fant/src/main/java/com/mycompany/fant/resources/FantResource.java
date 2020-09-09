@@ -6,6 +6,7 @@
 package com.mycompany.fant.resources;
 
 import beans.UserBean;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -44,10 +45,15 @@ public class FantResource {
     @GET
     @Path("/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@PathParam("userId") long userId) {
-        System.out.println("\ngetUser!\n");
-        User user = em.find(User.class, userId);
-        return user;
+    public User getUser(@PathParam("userId") String userId) {
+        User userToFind = null;
+        List<User> allUsers = userBean.getAllUsers();;
+        for(User user:allUsers) {
+            if(user.getUserId().equals(userId)) {
+                userToFind = user;
+            }
+        }
+        return userToFind;
     }
 
     @POST

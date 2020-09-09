@@ -93,4 +93,13 @@ public class UserBean {
         }
         return userToFind;
     }
+    
+    /**
+     * Return a list of all users.
+     * @return list of all user.
+     */
+    public List<User> getAllUsers() {
+        Query query = em.createNamedQuery(User.FIND_ALL_USERS);
+        return query.getResultList();
+    }
 }

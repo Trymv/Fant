@@ -46,7 +46,7 @@ public class Item implements Serializable {
 	@Id
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long owner_id;
+	private String owner_id;
         
 	@NotEmpty
 	@Column(name = "title")

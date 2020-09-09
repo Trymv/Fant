@@ -139,7 +139,7 @@ public class AuthenticationService {
         if (userToLoggInn != null) {
             System.out.println("\n1\n");
             CredentialValidationResult result = identityStoreHandler.validate(
-                    new UsernamePasswordCredential(Long.toString(userToLoggInn.getUserId()), pwd));
+                    new UsernamePasswordCredential(userToLoggInn.getUserId(), pwd));
             System.out.println("\n2\n");
             if (result.getStatus() == CredentialValidationResult.Status.VALID) {
                 String token = issueToken(result.getCallerPrincipal().getName(),
@@ -200,7 +200,7 @@ public class AuthenticationService {
     @POST
     @Path("create")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createUser(@FormParam("uid") long uid, @FormParam("pwd") String pwd) {
+    public Response createUser(@FormParam("uid") String uid, @FormParam("pwd") String pwd) {
         User user = em.find(User.class, uid);
         if (user != null) {
             log.log(Level.INFO, "user already exists {0}", uid);
@@ -215,7 +215,7 @@ public class AuthenticationService {
         }
     }
 
-    public User createUser(long uid, String pwd, String firstName, String lastName) {
+    public User createUser(String uid, String pwd, String firstName, String lastName) {
         User user = em.find(User.class, uid);
         if (user != null) {
             log.log(Level.INFO, "user already exists {0}", uid);
@@ -232,7 +232,7 @@ public class AuthenticationService {
         }        
     }
     
-    public User createUserV2(long uid, String pwd, String firstName, String lastName, String email, String phoneNumber) {
+    public User createUserV2(String uid, String pwd, String firstName, String lastName, String email, String phoneNumber) {
         System.out.println("\nTrying to create user using ID: " + uid + "\n");
         User user = em.find(User.class, uid);
         if (user != null) {
