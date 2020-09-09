@@ -1,5 +1,6 @@
 package no.ntnu.tollefsen.auth;
 
+import beans.UserBean;
 import com.mycompany.fant.resources.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -100,6 +101,9 @@ public class AuthenticationService {
 
     @Inject
     JsonWebToken principal;
+    
+    @Inject
+    UserBean userBean;
 
     /**
      *
@@ -127,6 +131,28 @@ public class AuthenticationService {
         } else {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
+    }
+    
+    public Response loginV2(String email, String pwd, @Context HttpServletRequest request) {
+        System.out.println("\n1: email is: " + email + ". pwd is: " + pwd + ".\n");
+        User userToLoggInn = userBean.findUserByEmail(email);
+        if (userToLoggInn != null) {
+            System.out.println("\n1\n");
+            CredentialValidationResult result = identityStoreHandler.validate(
+                    new UsernamePasswordCredential(Long.toString(userToLoggInn.getUserId()), pwd));
+            System.out.println("\n2\n");
+            if (result.getStatus() == CredentialValidationResult.Status.VALID) {
+                String token = issueToken(result.getCallerPrincipal().getName(),
+                        result.getCallerGroups(), request);
+                System.out.println("\n3\n");
+                return Response
+                        .ok(token)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .build();
+            }
+        }
+        System.out.println("\n4\n");
+        return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
     /**
@@ -208,11 +234,6 @@ public class AuthenticationService {
     
     public User createUserV2(long uid, String pwd, String firstName, String lastName, String email, String phoneNumber) {
         System.out.println("\nTrying to create user using ID: " + uid + "\n");
-        if(em == null) {
-            System.out.println("\nem is null\n");
-        } else {
-            System.out.println("\nem is not null\n");
-        }
         User user = em.find(User.class, uid);
         if (user != null) {
             System.out.println("Already user with ID: " + uid);
@@ -228,11 +249,6 @@ public class AuthenticationService {
             user.setEmail(email);
             user.setPhoneNumber(phoneNumber);
             Group usergroup = em.find(Group.class, Group.USER);
-            if (usergroup == null) {
-                System.out.println("\nusergroup is null\n");
-            } else {
-                System.out.println("\nusergroup is not null\n");
-            }
             user.getGroups().add(usergroup);
             return em.merge(user);
         }        
