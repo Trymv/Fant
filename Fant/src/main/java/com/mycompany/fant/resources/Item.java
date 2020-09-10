@@ -42,7 +42,7 @@ import lombok.NoArgsConstructor;
     @NamedQuery(name = Item.FIND_ITEM_BY_ID,
             query = "SELECT i FROM items i WHERE i.id LIKE :id"),
     @NamedQuery(name = Item.FIND_ALL_ITEMS_BY_USER,
-            query = "SELECT i FROM items i WHERE i.sellerUser.id LIKE :userId")
+            query = "SELECT i FROM items i WHERE i.sellerUser.userId LIKE :userId")
 })
 public class Item implements Serializable {
 
@@ -84,7 +84,7 @@ public class Item implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "seller_user_id", referencedColumnName = "id",
 		nullable = false)
-	private User sellerUser;
+	public User sellerUser;
 
 	/**
 	 * OWNER SIDE *

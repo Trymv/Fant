@@ -28,6 +28,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -73,6 +74,7 @@ public class User implements Serializable {
     private String email;
     
     @Column(name = "phone_number")
+    @Pattern(regexp = "[\\s]*[0-9]*[1-9]+")
     private String phoneNumber;
     
     @JsonbTransient
