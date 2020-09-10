@@ -62,4 +62,7 @@ public class Purchase implements Serializable {
 	@OneToOne(mappedBy = "purchase")
 	private Item item;	
     
+        public Purchase(User purchaser) {
+            this.buyerUser = purchaser;
+        }
 }

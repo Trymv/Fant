@@ -28,6 +28,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -75,6 +76,7 @@ public class User implements Serializable {
     private String phoneNumber;
     
     @JsonbTransient
+    @Size(min = 6)
     private String password;
     
     @Column(name = "creation_date")

@@ -22,8 +22,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,10 +38,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @NamedQueries({
-	@NamedQuery(name = Item.FIND_ALL_ITEMS, query = "SELECT i FROM items i")})
+    @NamedQuery(name = Item.FIND_ALL_ITEMS, query = "SELECT i FROM items i"),
+    @NamedQuery(name = Item.FIND_ITEM_BY_ID,
+            query = "SELECT i FROM items i WHERE i.id LIKE :id"),
+    @NamedQuery(name = Item.FIND_ALL_ITEMS_BY_USER,
+            query = "SELECT i FROM items i WHERE i.sellerUser.id LIKE :userId")
+})
 public class Item implements Serializable {
 
 	public final static String FIND_ALL_ITEMS = "findAllItems";
+        public final static String FIND_ITEM_BY_ID = "findItemById";
+        public final static String FIND_ALL_ITEMS_BY_USER = "findAllItemsByUser";
 
 	@Id
 	@Column(name = "id", nullable = false)
@@ -73,9 +80,9 @@ public class Item implements Serializable {
 	 * OWNER SIDE *
          * Relation to see who owns the item.
 	 */
-	@NotEmpty
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "sller_user_id", referencedColumnName = "id",
+	@JoinColumn(name = "seller_user_id", referencedColumnName = "id",
 		nullable = false)
 	private User sellerUser;
 

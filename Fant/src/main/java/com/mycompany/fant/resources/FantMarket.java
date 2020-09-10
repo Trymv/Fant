@@ -6,10 +6,10 @@
 package com.mycompany.fant.resources;
 
 import beans.ItemBean;
+import beans.PurchaseBean;
 import beans.UserBean;
 import com.mycompany.fant.DatasourceProducer;
 import java.math.BigDecimal;
-import java.util.List;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
@@ -19,13 +19,12 @@ import javax.persistence.PersistenceContext;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.security.enterprise.identitystore.PasswordHash;
 import javax.sql.DataSource;
-import javax.validation.constraints.NotBlank;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import lombok.extern.java.Log;
 import no.ntnu.tollefsen.auth.Group;
@@ -77,11 +76,31 @@ public class FantMarket {
     @Inject
     ItemBean itemBean;
     
+    @Inject
+    PurchaseBean purchaseBean;
+    
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    //@RolesAllowed(value = {Group.USER})
-    public List<Item> showAllItems() {
-        return itemBean.getAllItems();
+    @Path("/allSales")
+    public Response showAllItems() {
+        return Response.ok(itemBean.getAllItems()).build();
+    }
+    
+    @GET
+    @Path("/{itemId}")
+    @RolesAllowed(value = {Group.USER})
+    public Response showItem(@PathParam("itemId") String itemId) {
+        Item item = itemBean.getItem(itemId);
+        if(item == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok(item).build();
+    }
+    
+    @GET
+    @RolesAllowed(value = {Group.USER})
+    public Response showMyItems() {
+        User user = em.find(User.class, principal.getName());
+        return Response.ok(itemBean.getAllItemsByUser(user.getUserId())).build();
     }
     
     @POST
@@ -98,5 +117,22 @@ public class FantMarket {
         } else {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+    }
+    
+    @GET
+    @Path("/buy")
+    @RolesAllowed(value = {Group.USER})
+    public Response buyItem(
+            @QueryParam("itemId") String itemId) {
+        User buyer = em.find(User.class, principal.getName());
+        if((itemId != null) && (buyer != null)) {
+            if(itemBean.getItem(itemId) != null) {
+                Purchase myPurchase = purchaseBean.purchaseItem(buyer, itemId);
+                if(myPurchase != null) {
+                    return Response.ok(myPurchase).build();
+                }
+            }
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 }

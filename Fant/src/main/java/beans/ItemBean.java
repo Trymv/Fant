@@ -41,6 +41,24 @@ public class ItemBean {
         return query.getResultList();
     }
     
+    public List<Item> getAllItemsByUser(String userId) {
+        Query query = em.createNamedQuery(Item.FIND_ALL_ITEMS_BY_USER);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
+    
+    /**
+     * Return an item based on item id.
+     * @param itemId
+     * @return item with the id or null if no items with id exist.
+     */
+    public Item getItem(String itemId) {
+        Query query = em.createNamedQuery(Item.FIND_ITEM_BY_ID);
+        query.setParameter("id", itemId);
+        List<Item> item = query.getResultList();
+        return item.get(0);
+    }
+    
     public Item addItem(User seller, String title, String description, BigDecimal priceNok) {
         return em.merge(new Item(seller, title, description, priceNok));
     }

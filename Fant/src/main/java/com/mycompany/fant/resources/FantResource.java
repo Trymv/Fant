@@ -47,7 +47,7 @@ public class FantResource {
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("userId") String userId) {
         User userToFind = null;
-        List<User> allUsers = userBean.getAllUsers();;
+        List<User> allUsers = userBean.getAllUsers();
         for(User user:allUsers) {
             if(user.getUserId().equals(userId)) {
                 userToFind = user;
