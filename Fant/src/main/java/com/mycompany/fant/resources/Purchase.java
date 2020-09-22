@@ -19,7 +19,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
-import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -39,7 +38,6 @@ public class Purchase implements Serializable {
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private String buyerId;
 	
-	@NotEmpty
 	@Column(name = "purchase_date")
 	private Date purchaseDate;
 	
@@ -49,7 +47,6 @@ public class Purchase implements Serializable {
 	}
 	
 	/** OWNING SIDE **/
-        @NotEmpty
 	@ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.DETACH)
 	@JoinColumn(name = "purchase_user_id", referencedColumnName = "id",
 		nullable = false)

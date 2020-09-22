@@ -26,12 +26,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import no.ntnu.tollefsen.auth.AuthenticationService;
 import no.ntnu.tollefsen.auth.Group;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 /**
  *
@@ -46,6 +48,9 @@ public class FantResource {
 
     @PersistenceContext
     EntityManager em;
+    
+    @Inject
+    JsonWebToken principal;
     
     @Inject
     PasswordHash hasher;
@@ -69,30 +74,43 @@ public class FantResource {
         }
         return userToFind;
     }
+    
+    @GET
+    @Path("/currentuser")
+    @RolesAllowed(value = {Group.USER})
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getCurrentUser() {
+        return em.find(User.class, principal.getName());
+    }
 
     @POST
-    @Path("/createUser/{psw}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/createUser")
     @Produces(MediaType.APPLICATION_JSON)
-    public User createUSer(User userToBeMade, @PathParam("psw") String psw) {
-        System.out.println("\n TEST \n" + userToBeMade.getUserId() + " " + psw + " "
-                + userToBeMade.getFirstName() + " " + userToBeMade.getLastName() + " "
-                + userToBeMade.getEmail() + " " + userToBeMade.getPhoneNumber() + "\n");
-        return userBean.createUser(psw, userToBeMade.getFirstName(), userToBeMade.getLastName(), userToBeMade.getEmail(), userToBeMade.getPhoneNumber());
+    public User createUser(
+            @QueryParam("FirstName") @NotBlank String firstName,
+            @QueryParam("LastName") @NotBlank String lastName,
+            @QueryParam("email") @NotBlank String email, 
+            @QueryParam("pwd") @NotBlank String pwd,
+            @QueryParam("phoneNumber") @NotBlank String phoneNumber,
+            @Context HttpServletRequest request) {
+        System.out.println("\n TEST \n" + " " + pwd + " "
+                + firstName + " " + lastName + " "
+                + email + " " + phoneNumber + "\n");
+        return userBean.createUser(pwd, firstName, lastName, email, phoneNumber);
     }
     
-    @POST
+    @GET
     @Path("/login")
     public Response login(
-            @FormParam("email") @NotBlank String email, //@FormParam
-            @FormParam("pwd") @NotBlank String pwd,
+            @QueryParam("email") @NotBlank String email, //@FormParam
+            @QueryParam("pwd") @NotBlank String pwd,
             @Context HttpServletRequest request) {
         return authenticationService.loginV2(email, pwd, request);
     }
     
     @PUT
     @Path("/changePassword")
-    //@RolesAllowed(value = {Group.USER})
+    @RolesAllowed(value = {Group.USER})
     public Response changePassword(
             @FormParam("email") String email,
             @FormParam("currentPwd") String currentPwd,
