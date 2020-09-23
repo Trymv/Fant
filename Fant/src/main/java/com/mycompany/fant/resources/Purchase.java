@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -36,9 +37,10 @@ public class Purchase implements Serializable {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue (strategy = GenerationType.AUTO)
-	private String buyerId;
+	private String id; //Purchase id
 	
 	@Column(name = "purchase_date")
+        @Temporal(javax.persistence.TemporalType.DATE)
 	private Date purchaseDate;
 	
 	@PrePersist

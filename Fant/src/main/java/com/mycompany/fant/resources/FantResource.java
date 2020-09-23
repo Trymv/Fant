@@ -78,7 +78,7 @@ public class FantResource {
     @GET
     @Path("/currentuser")
     @RolesAllowed(value = {Group.USER})
-    @Produces(MediaType.APPLICATION_JSON)
+    //@Produces(MediaType.APPLICATION_JSON)
     public User getCurrentUser() {
         return em.find(User.class, principal.getName());
     }
