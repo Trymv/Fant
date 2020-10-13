@@ -97,6 +97,7 @@ public class FantMarket {
     }
     
     @GET
+    @Path("/myItems")
     @RolesAllowed(value = {Group.USER})
     public Response showMyItems() {
         User user = em.find(User.class, principal.getName());

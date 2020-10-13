@@ -78,8 +78,9 @@ public class FantResource {
     @GET
     @Path("/currentuser")
     @RolesAllowed(value = {Group.USER})
-    //@Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public User getCurrentUser() {
+        System.out.println("Current user was called!");
         return em.find(User.class, principal.getName());
     }
 
@@ -101,6 +102,7 @@ public class FantResource {
     
     @GET
     @Path("/login")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response login(
             @QueryParam("email") @NotBlank String email, //@FormParam
             @QueryParam("pwd") @NotBlank String pwd,
