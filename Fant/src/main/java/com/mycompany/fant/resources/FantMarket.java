@@ -10,6 +10,7 @@ import beans.PurchaseBean;
 import beans.UserBean;
 import com.mycompany.fant.DatasourceProducer;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
@@ -24,7 +25,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import lombok.extern.java.Log;
 import no.ntnu.tollefsen.auth.Group;
@@ -81,8 +84,9 @@ public class FantMarket {
     
     @GET
     @Path("/allSales")
-    public Response showAllItems() {
-        return Response.ok(itemBean.getAllItems()).build();
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Item> showAllItems() {
+        return itemBean.getAllItems();
     }
     
     @GET
